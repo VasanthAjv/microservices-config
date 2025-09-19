@@ -1,11 +1,11 @@
-spring:
-  application:
-    name: eureka-server
-
 server:
   port: 8761
   ssl:
     enabled: false
+
+spring:
+  application:
+    name: eureka-server
 
 eureka:
   client:
