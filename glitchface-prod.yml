@@ -1,17 +1,114 @@
 server:
-  port: 8761
-  ssl:
-    enabled: false
+  port: 8082
 
 spring:
   application:
-    name: eureka-server
+    name: glitchface
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/glitchfaceprod?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 0067123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: vasanthaj739@gmail.com
+    from: vasanthaj739@gmail.com
+    password: tpnxxttxncvcektj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    debug: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 363534554295-59jg256fhj8uugi80pnotah6k6konnhu.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid,profile,email
+            redirect-uri: http://localhost:8082/login/oauth2/code/google
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+
+  cache:
+    type: simple
+    cache-names: profileImages
+
+  task:
+    scheduling:
+      pool:
+        size: 1
+
+jwt:
+  secret: dca3eeadb498daec5c6b8c6cc0866f9d22a37a5a4378a95e277c14e39e955d6e
+  expiration: 31536000000
+  refresh-expiration: 31536000000
+
+cors:
+  allowed-origins: http://localhost:4200
+
+frontend:
+  url: http://localhost:4200
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: false
-    fetch-registry: false
-  server:
-    renewal-percent-threshold: 0.50
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id: ${spring.application.name}:${random.value}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.example.GlitchFace: DEBUG
+    com.netflix.eureka: INFO
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+    info:
+      env:
+        enabled: true
+  health:
+    db:
+      enabled: true
+    mail:
+      enabled: true
+
+app:
+  profile:
+    image:
+      max-size: 5242880
+      upload-dir: uploads/profile-images/

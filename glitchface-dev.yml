@@ -6,7 +6,7 @@ spring:
     name: glitchface
 
   datasource:
-    url: jdbc:mysql://localhost:3306/glitchface?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/glitchfacedev?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 0067123
     driver-class-name: com.mysql.cj.jdbc.Driver
