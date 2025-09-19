@@ -9,7 +9,7 @@ spring:
     config:
       server:
         git:
-          uri: file:///E:/projects/microservices-configs
+          uri: file:///E:/projects/microservices-config
           clone-on-start: true
           default-label: main
 
